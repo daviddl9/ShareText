@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/abstract/book_details_page_abstract.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 
@@ -29,7 +30,7 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
     return new Scaffold(
       key: key,
       appBar: new AppBar(
-        title: new Text("Stamp Collection"),
+        title: new Text("My Collection"),
         backgroundColor: Colors.white,
         elevation: 1.0,
         iconTheme: new IconThemeData(color: Colors.black),
@@ -52,7 +53,7 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
               new SizedBox(height: 16.0,),
               new Text(widget.book.title, style: const TextStyle(fontSize: 24.0, fontFamily: "CrimsonText"),),
               new SizedBox(height: 8.0,),
-              new Text("${widget.book.author} - Science Fiction", style: const TextStyle(fontSize: 16.0, fontFamily: "CrimsonText", fontWeight: FontWeight.w400),),
+              new Text("${widget.book.author}", style: const TextStyle(fontSize: 16.0, fontFamily: "CrimsonText", fontWeight: FontWeight.w400),),
               new Divider(height: 32.0, color: Colors.black38,),
               new Row(
                 children: <Widget>[
@@ -67,12 +68,13 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                   new Expanded(
                     child: new IconButtonText(
                       onClick: (){
-                        print("The id is: ${widget.book.id}");
-                        Clipboard.setData(new ClipboardData(text: widget.book.id));
-                        key.currentState.showSnackBar(new SnackBar(content: new Text("Copied: \"${widget.book.id}\" to clipboard")));
+//                        print("The id is: ${widget.book.id}");
+//                        Clipboard.setData(new ClipboardData(text: widget.book.id));
+                        _addToWishList(text: widget.book.id);
+                        key.currentState.showSnackBar(new SnackBar(content: new Text("Added: ${widget.book.id} to wishlist")));
                       },
                       iconData: Icons.bookmark,
-                      text: "Bookmark",
+                      text: "Add to wishlist",
                       selected: false,
                     ),
                   ),
@@ -102,7 +104,9 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
     );
   }
 
-}
+  void _addToWishList({String text}) {}
+      //TODO
+  }
 
 
 class IconButtonText extends StatelessWidget {
