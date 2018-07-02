@@ -9,11 +9,13 @@ class Book {
   static final db_author = "author";
   static final db_description = "description";
   static final db_subtitle = "subtitle";
+  static final db_wishlisted = "wishlisted";
 
   String title, url, id, notes, description, subtitle;
   //First author
   String author;
   bool starred;
+  bool wishlisted;
   Book({
     @required this.title,
     @required this.url,
@@ -23,6 +25,7 @@ class Book {
     @required this.subtitle,
     this.starred = false,
     this.notes = "",
+    this.wishlisted = false
   });
 
   Book.fromMap(Map<String, dynamic> map): this(
@@ -34,19 +37,7 @@ class Book {
     description: map[db_description],
     author: map[db_author],
     subtitle: map[db_subtitle],
+    wishlisted: map[db_wishlisted] == 1
   );
 
-  // Currently not used
-  Map<String, dynamic> toMap() {
-    return {
-      db_title: title,
-      db_url: url,
-      db_id: id,
-      db_notes: notes,
-      db_star: starred? 1:0,
-      db_description: description,
-      db_author: author,
-      db_subtitle: subtitle,
-    };
-  }
 }

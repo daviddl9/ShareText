@@ -45,8 +45,7 @@ class Repository {
   Future<ParsedResponse<List<Book>>> getBooks(String input) async{
     //http request, catching error like no internet connection.
     //If no internet is available for example response is
-    //TODO restricted language to english, feel free to remove that
-     http.Response response = await http.get("https://www.googleapis.com/books/v1/volumes?q=$input&langRestrict=en")
+     http.Response response = await http.get("https://www.googleapis.com/books/v1/volumes?q=$input")
          .catchError((resp) {});
      
      if(response == null) {
@@ -198,13 +197,13 @@ class Repository {
   }
 
 
-
-
-
   Future<List<Book>> getFavoriteBooks()  {
     return database.getFavoriteBooks();
   }
 
 
+  Future<List<Book>> getWishlist()  {
+    return database.getWishlistedBooks();
+  }
 
 }

@@ -35,8 +35,8 @@ class BookDatabase {
   Future _init() async {
     // Get a location using path_provider
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "demo.db");
-    db = await openDatabase(path, version: 1,
+    String path = join(documentsDirectory.path, "shareText.db");
+    db = await openDatabase(path, version: 2,
         onCreate: (Database db, int version) async {
           // When creating the db, create the table
           await db.execute(
@@ -48,7 +48,8 @@ class BookDatabase {
                   "${Book.db_notes} TEXT,"
                   "${Book.db_author} TEXT,"
                   "${Book.db_description} TEXT,"
-                  "${Book.db_subtitle} TEXT"
+                  "${Book.db_subtitle} TEXT,"
+                  "${Book.db_wishlisted} BIT"
                   ")");
         });
     didInit = true;
@@ -89,6 +90,17 @@ class BookDatabase {
     return books;
   }
 
+  Future<List<Book>> getWishlistedBooks() async{
+    var db = await _getDb();
+    var result = await db.rawQuery('SELECT * FROM $tableName WHERE ${Book.db_wishlisted} = "1"');
+    if(result.length == 0)return [];
+    List<Book> books = [];
+    for(Map<String,dynamic> map in result) {
+      books.add(new Book.fromMap(map));
+    }
+    return books;
+  }
+
 
   //TODO escape not allowed characters eg. ' " '
   /// Inserts or replaces the book.
@@ -96,9 +108,9 @@ class BookDatabase {
     var db = await _getDb();
     await db.rawInsert(
         'INSERT OR REPLACE INTO '
-            '$tableName(${Book.db_id}, ${Book.db_title}, ${Book.db_url}, ${Book.db_star}, ${Book.db_notes}, ${Book.db_author}, ${Book.db_description}, ${Book.db_subtitle})'
-            ' VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
-        [book.id, book.title, book.url, book.starred? 1:0, book.notes, book.author, book.description, book.subtitle]);
+            '$tableName(${Book.db_id}, ${Book.db_title}, ${Book.db_url}, ${Book.db_star}, ${Book.db_notes}, ${Book.db_author}, ${Book.db_description}, ${Book.db_subtitle}, ${Book.db_wishlisted})'
+            ' VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [book.id, book.title, book.url, book.starred? 1:0, book.notes, book.author, book.description, book.subtitle, book.wishlisted? 1:0]);
 
   }
 

@@ -59,7 +59,9 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                 children: <Widget>[
                   new Expanded(
                       child: new IconButtonText(
-                        onClick: (){},
+                        onClick: (){
+                          //TODO implement search function for users.
+                        },
                         iconData: Icons.people,
                         text: "Search users",
                         selected: false,
@@ -70,12 +72,16 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                       onClick: (){
 //                        print("The id is: ${widget.book.id}");
 //                        Clipboard.setData(new ClipboardData(text: widget.book.id));
-                        _addToWishList(text: widget.book.id);
-                        key.currentState.showSnackBar(new SnackBar(content: new Text("Added: ${widget.book.id} to wishlist")));
+                        setState(() {
+                          widget.book.wishlisted = !widget.book.wishlisted;
+                          Repository.get().updateBook(widget.book);
+                        });
+                        print("Book has been updated");
+                        key.currentState.showSnackBar(new SnackBar(content: new Text("Added: ${widget.book.title} to wishlist")));
                       },
-                      iconData: Icons.bookmark,
-                      text: "Add to wishlist",
-                      selected: false,
+                      iconData: widget.book.wishlisted? Icons.remove : Icons.bookmark,
+                      text: widget.book.wishlisted? "Remove" : "Add to wishlist",
+                      selected: widget.book.wishlisted,
                     ),
                   ),
                   new Expanded(
@@ -83,11 +89,12 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                       onClick: (){
                         setState(() {
                           widget.book.starred = !widget.book.starred;
+                          key.currentState.showSnackBar(new SnackBar(content: new Text("Added: ${widget.book.title} to collection")));
+                          Repository.get().updateBook(widget.book);
                         });
-                        Repository.get().updateBook(widget.book);
                       },
                       iconData: widget.book.starred? Icons.remove : Icons.add,
-                      text: widget.book.starred? "Remove"  :"Mark as read",
+                      text: widget.book.starred? "Remove"  :"My Collection",
                       selected: widget.book.starred,
                     ),
                   ),
@@ -103,9 +110,6 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
       ),
     );
   }
-
-  void _addToWishList({String text}) {}
-      //TODO
   }
 
 

@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ),
               ListTile(
-                title: Text('My wishlist'),
+                title: Text('My Wishlist'),
                 trailing: Icon(Icons.book),
                 onTap: () => Navigator.of(context).pushNamed('/wishlist_page'),
               ),
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             actions: <Widget>[
               new IconButton(icon: new Icon(Icons.search), onPressed: () {Navigator.pushNamed(context, '/search_$interfaceType');},),
 //              new IconButton(icon: new Icon(Icons.collections), onPressed: () {Navigator.pushNamed(context, '/stamp_collection_$interfaceType');},),
-              new IconButton(icon: (_currentUser == null) ? Icon(Icons.group) : Icon(Icons.exit_to_app), onPressed: () {_handleSignIn();},)
+              new IconButton(icon: (_currentUser == null) ? Icon(Icons.group) : Icon(Icons.exit_to_app), onPressed: () {_currentUser == null ? _handleSignIn() : _handleSignOut();},)
             ],
             backgroundColor: Colors.white,
             elevation: 2.0,
@@ -119,29 +119,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           new SliverList(delegate: new SliverChildListDelegate(
             [
               wrapInAnimation(myCollection(), 0),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Biographies", ["wO3PCgAAQBAJ","_LFSBgAAQBAJ","8U2oAAAAQBAJ", "yG3PAK6ZOucC"]), 1),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Fiction", ["OsUPDgAAQBAJ", "3e-dDAAAQBAJ", "-ITZDAAAQBAJ","rmBeDAAAQBAJ", "vgzJCwAAQBAJ"]), 2),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Mystery & Thriller", ["1Y9gDQAAQBAJ", "Pz4YDQAAQBAJ", "UXARDgAAQBAJ"]), 3),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Science Fiction", ["JMYUDAAAQBAJ","PzhQydl-QD8C", "nkalO3OsoeMC", "VO8nDwAAQBAJ", "Nxl0BQAAQBAJ"]), 4),
+              wrapInAnimation(myWishlist(), 1),
+              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Biographies", ["wO3PCgAAQBAJ","_LFSBgAAQBAJ","8U2oAAAAQBAJ", "yG3PAK6ZOucC"]), 2),
+              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Fiction", ["OsUPDgAAQBAJ", "3e-dDAAAQBAJ", "-ITZDAAAQBAJ","rmBeDAAAQBAJ", "vgzJCwAAQBAJ"]), 3),
+              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Mystery & Thriller", ["1Y9gDQAAQBAJ", "Pz4YDQAAQBAJ", "UXARDgAAQBAJ"]), 4),
+              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Science Fiction", ["JMYUDAAAQBAJ","PzhQydl-QD8C", "nkalO3OsoeMC", "VO8nDwAAQBAJ", "Nxl0BQAAQBAJ"]), 5),
             ],
           ))
         ],
       )
     );
   }
-
-
-  /* child: new StoreConnector<AppState, List<Book>>(
-             converter: (Store<AppState> store) => store.state.readBooks,
-             builder: (BuildContext context, List<Book> books) {
-               return new CollectionPreview(
-                 books: books,
-                 color: new Color(0xff8FC0A9),
-                 title: "My Collection",
-                 loading: false,
-               );
-             },
-           ),*/
 
   Widget wrapInAnimation(Widget child, int index) {
     Animation offsetAnimation = new CurvedAnimation(parent: cardsFirstOpenController, curve: new IndexOffsetCurve(index));
@@ -192,4 +180,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       },
     );
   }
+
+  Widget myWishlist() {
+    return new FutureBuilder<List<Book>>(
+      future: Repository.get().getWishlist(),
+      builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+        List<Book> books = [];
+        if (snapshot.data != null) books = snapshot.data;
+        if (books.isEmpty) {
+          return new Container();
+        }
+        return new CollectionPreview(
+            books: books,
+            title: "My Wishlist",
+            color: new Color(0xffffffff),
+            loading: snapshot.data == null,
+        );
+      }
+    );
+  }
+
+
 }

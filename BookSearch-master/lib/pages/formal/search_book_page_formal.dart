@@ -51,7 +51,7 @@ class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
                         padding: const EdgeInsets.all(8.0),
                         child: new TextField(
                           decoration: new InputDecoration(
-                              hintText: "What books have you read?",
+                              hintText: "Search your favourite books here.",
                               prefixIcon: new Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: new Icon(Icons.search),
