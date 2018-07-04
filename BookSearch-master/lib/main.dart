@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:test_app/pages/formal/edit_profile.dart';
 import 'package:test_app/pages/formal/wishlist_page_formal.dart';
 import 'package:test_app/pages/universal/collection_page.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
           '/collection': (BuildContext context) => new CollectionPage(),
           '/stamp_collection_material': (BuildContext context) => new StampCollectionPage(),
           '/stamp_collection_formal': (BuildContext context) => new StampCollectionFormalPage(),
-          '/wishlist_page': (BuildContext context) => new WishlistCollectionFormalPage()
+          '/wishlist_page': (BuildContext context) => new WishlistCollectionFormalPage(),
+          '/edit_profile': (BuildContext context) => new LoginPage()
         },
       ),
     );

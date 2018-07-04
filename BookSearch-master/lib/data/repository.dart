@@ -67,6 +67,7 @@ class Repository {
     }
 
     //Adds information (if available) from database
+     // Iterate through all books and map each book to it's unique ID.
     List<Book> databaseBook = await database.getBooks([]..addAll(networkBooks.keys));
     for(Book book in databaseBook) {
       networkBooks[book.id] = book;

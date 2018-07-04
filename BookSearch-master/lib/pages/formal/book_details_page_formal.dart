@@ -5,6 +5,7 @@ import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/abstract/book_details_page_abstract.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
@@ -73,11 +74,16 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
 //                        print("The id is: ${widget.book.id}");
 //                        Clipboard.setData(new ClipboardData(text: widget.book.id));
                         setState(() {
+                          String preText;
+                          if (widget.book.wishlisted) {
+                            preText = "Removed:";
+                          } else {
+                            preText = "Added:";
+                          }
                           widget.book.wishlisted = !widget.book.wishlisted;
                           Repository.get().updateBook(widget.book);
+                          key.currentState.showSnackBar(new SnackBar(content: new Text("$preText ${widget.book.title} to wishlist")));
                         });
-                        print("Book has been updated");
-                        key.currentState.showSnackBar(new SnackBar(content: new Text("Added: ${widget.book.title} to wishlist")));
                       },
                       iconData: widget.book.wishlisted? Icons.remove : Icons.bookmark,
                       text: widget.book.wishlisted? "Remove" : "Add to wishlist",
@@ -88,8 +94,14 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                     child: new IconButtonText(
                       onClick: (){
                         setState(() {
+                          String preText;
                           widget.book.starred = !widget.book.starred;
-                          key.currentState.showSnackBar(new SnackBar(content: new Text("Added: ${widget.book.title} to collection")));
+                          if (widget.book.starred) {
+                            preText = "Removed:";
+                          } else {
+                            preText = "Added:";
+                          }
+                          key.currentState.showSnackBar(new SnackBar(content: new Text("$preText ${widget.book.title} to collection")));
                           Repository.get().updateBook(widget.book);
                         });
                       },

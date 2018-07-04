@@ -98,6 +98,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 title: Text('My Library'),
                 trailing: Icon(Icons.library_books),
                 onTap: () => Navigator.of(context).pushNamed('/collection'),
+              ),
+              ListTile(
+                title: Text('Edit Profile'),
+                trailing: Icon(Icons.edit),
+                onTap: () => Navigator.of(context).pushNamed('/edit_profile'),
               )
             ],
           ),

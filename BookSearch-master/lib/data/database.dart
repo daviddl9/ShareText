@@ -101,7 +101,6 @@ class BookDatabase {
     return books;
   }
 
-
   //TODO escape not allowed characters eg. ' " '
   /// Inserts or replaces the book.
   Future updateBook(Book book) async {
