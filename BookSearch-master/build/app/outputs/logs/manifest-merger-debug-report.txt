@@ -4,6 +4,7 @@ ADDED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main
 INJECTED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main/AndroidManifest.xml:1:1-44:12
 INJECTED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main/AndroidManifest.xml:1:1-44:12
 INJECTED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main/AndroidManifest.xml:1:1-44:12
+MERGED from [:fluttertoast] /Users/David/Desktop/ShareText/BookSearch-master/build/fluttertoast/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:sqflite] /Users/David/Desktop/ShareText/BookSearch-master/build/sqflite/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:path_provider] /Users/David/Desktop/ShareText/BookSearch-master/build/path_provider/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:google_sign_in] /Users/David/Desktop/ShareText/BookSearch-master/build/google_sign_in/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-9:12
@@ -56,6 +57,8 @@ uses-sdk
 ADDED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main/AndroidManifest.xml:9:5-11:41
 INJECTED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main/AndroidManifest.xml:9:5-11:41
 INJECTED from /Users/David/Desktop/ShareText/BookSearch-master/android/app/src/main/AndroidManifest.xml:9:5-11:41
+MERGED from [:fluttertoast] /Users/David/Desktop/ShareText/BookSearch-master/build/fluttertoast/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /Users/David/Desktop/ShareText/BookSearch-master/build/fluttertoast/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] /Users/David/Desktop/ShareText/BookSearch-master/build/sqflite/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:sqflite] /Users/David/Desktop/ShareText/BookSearch-master/build/sqflite/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:path_provider] /Users/David/Desktop/ShareText/BookSearch-master/build/path_provider/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-44

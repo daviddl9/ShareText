@@ -1,4 +1,4 @@
-#Wed Jul 04 14:43:22 SGT 2018
+#Fri Jul 06 01:44:07 SGT 2018
 base.0=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

@@ -1,36 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginPage extends StatefulWidget {
+GoogleSignIn _googleSignIn = new GoogleSignIn(
+  scopes: <String> [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ]
+);
+
+GoogleSignInAccount _currentUser;
+
+class EditProfilePage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  EditProfilePageState createState() => EditProfilePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class EditProfilePageState extends State<EditProfilePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+      setState(() {
+        _currentUser = account;
+        email = _currentUser.email;
+        name = _currentUser.displayName;
+      });
+    });
+    _googleSignIn.signInSilently();
+  }
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
 
-  String _email;
-  String _password;
+  String email;
+  String name;
+  String num;
 
   void _submit() {
     final form = formKey.currentState;
+    
+    Firestore.instance.runTransaction((Transaction transaction) async {
+//      CollectionReference reference = Firestore.instance.collection('users');
+//      await reference.add({"email":_email, "name":_name, "contact":_num});
+
+        DocumentReference reference = Firestore.instance.document('users/$email');
+        Firestore.instance.runTransaction((Transaction txn) async {
+          DocumentSnapshot ds = await txn.get(reference);
+          if (ds.exists) {
+            await txn.update(reference, <String, dynamic> {"name":name, "email":email, "contact":num});
+          } else {
+            CollectionReference reference = Firestore.instance.collection('users');
+            await reference.add({"email":email, "name":name, "contact":num});
+          }
+        });
+
+    });
 
     if (form.validate()) {
       form.save();
-
-      // Email & password matched our validation rules
-      // and are saved to _email and _password fields.
-      _performLogin();
     }
-  }
 
-  void _performLogin() {
-    // This is just a demo, so no actual login here.
-    final snackbar = SnackBar(
-      content: Text('Email: $_email, password: $_password'),
-    );
-
-    scaffoldKey.currentState.showSnackBar(snackbar);
+    Navigator.of(context).pushNamed('/home_page');
   }
 
   @override
@@ -47,24 +80,40 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Your name'),
+                decoration: InputDecoration(
+                    labelText: 'Your name',
+                    hintText: name,
+                    icon: Icon(Icons.person)
+                ),
+                onSaved: (val) => name = val,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Your email'),
+                decoration: InputDecoration(
+                  icon: Icon(Icons.phone),
+                  hintText: 'Enter your phone number',
+                  labelText: 'Phone'
+                ),
+                onSaved: (val) => num = val,
+                keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter.digitsOnly
+                ],
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                    labelText: 'Your email',
+                    icon: Icon(Icons.email)
+                ),
                 validator: (val) =>
                 !val.contains('@') ? 'Not a valid email.' : null,
-                onSaved: (val) => _email = val,
+                onSaved: (val) => email = val,
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Your occupation'),
-                validator: (val) =>
-                val.length < 6 ? 'Password too short.' : null,
-                onSaved: (val) => _password = val,
-                obscureText: true,
-              ),
-              RaisedButton(
-                onPressed: _submit,
-                child: Text('Update profile'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  onPressed: _submit,
+                  child: Text('Update profile'),
+                ),
               ),
             ],
           ),

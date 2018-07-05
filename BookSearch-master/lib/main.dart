@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:test_app/pages/formal/edit_profile.dart';
+import 'package:test_app/pages/formal/sign_in_page_formal.dart';
 import 'package:test_app/pages/formal/wishlist_page_formal.dart';
 import 'package:test_app/pages/universal/collection_page.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
@@ -30,14 +31,15 @@ class MyApp extends StatelessWidget {
           primaryColor: new Color(0xFF0F2533),
         ),
         routes: {
-          '/': (BuildContext context) => new HomePage(),
+          '/': (BuildContext context) => new SignInPage(),
+          '/home_page': (BuildContext context) => new HomePage(),
           '/search_material': (BuildContext context) => new SearchBookPage(),
           '/search_formal': (BuildContext context) => new SearchBookPageNew(),
           '/collection': (BuildContext context) => new CollectionPage(),
           '/stamp_collection_material': (BuildContext context) => new StampCollectionPage(),
           '/stamp_collection_formal': (BuildContext context) => new StampCollectionFormalPage(),
           '/wishlist_page': (BuildContext context) => new WishlistCollectionFormalPage(),
-          '/edit_profile': (BuildContext context) => new LoginPage()
+          '/edit_profile': (BuildContext context) => new EditProfilePage()
         },
       ),
     );

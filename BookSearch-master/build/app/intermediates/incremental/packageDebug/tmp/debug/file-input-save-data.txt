@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Jul 04 14:43:23 SGT 2018
+#Fri Jul 06 01:44:09 SGT 2018
 4.path=flutter_assets/fonts/MaterialIcons-Regular.ttf
 13.baseType=DIRECTORY
 8.set=ASSET
@@ -15,6 +15,7 @@
 15.set=ASSET
 4.set=ASSET
 5.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
+16.path=flutter_assets/FontManifest.json
 7.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/transforms/mergeJniLibs/debug/0
 11.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
 9.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
@@ -45,9 +46,10 @@
 13.path=flutter_assets/platform.dill
 11.baseType=DIRECTORY
 4.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
-15.path=flutter_assets/FontManifest.json
+15.path=flutter_assets/assets/ShareText.jpg
 3.baseType=DIRECTORY
 6.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
+16.baseType=DIRECTORY
 10.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/transforms/mergeJniLibs/debug/0
 13.set=ASSET
 8.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
@@ -55,10 +57,12 @@
 8.baseType=DIRECTORY
 12.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
 14.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/transforms/mergeJniLibs/debug/0
+16.base=/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/assets/debug
 9.set=ASSET
-count=16
+count=17
 12.baseType=DIRECTORY
 4.baseType=DIRECTORY
+16.set=ASSET
 5.set=ASSET
 9.baseType=DIRECTORY
 0.path=flutter_assets/isolate_snapshot_data

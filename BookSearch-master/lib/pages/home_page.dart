@@ -7,6 +7,8 @@ import 'package:test_app/model/Book.dart';
 import 'package:test_app/utils/index_offset_curve.dart';
 import 'package:test_app/widgets/collection_preview.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:test_app/pages/formal/sign_in_page_formal.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -15,51 +17,33 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => new _HomePageState();
 }
 
-GoogleSignInAccount _currentUser;
-
-GoogleSignIn _googleSignIn = new GoogleSignIn(
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
-);
-
-Future<Null> _handleSignIn() async {
-  try {
-    await _googleSignIn.signIn();
-    print("Logged In");
-  } catch (error) {
-    print(error);
-  }
-}
-
-  Future<Null> _handleSignOut() async {
-    _googleSignIn.disconnect();
-    print("Logged out");
-  }
-
-
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
-
-
+//
+//
   AnimationController cardsFirstOpenController;
-
-
+//
+//
   String interfaceType = "formal";
-
+//
   bool init = true;
-
+//
   @override
   void initState() {
     super.initState();
+//    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+//      setState(() {
+//        _currentUser = account;
+//      });
+//    });
     cardsFirstOpenController = new AnimationController(vsync: this, duration: const Duration(milliseconds: 1300));
-
+//
     Repository.get().init().then((it){
       setState((){
         init = false;
       });
     });
     cardsFirstOpenController.forward(from: 0.2);
+////    _googleSignIn.signInSilently();
   }
 
 
@@ -77,12 +61,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: ListView(
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text('David Livingston', style: TextStyle(color: Colors.black87)),
-                accountEmail: Text('ddl.tdh@gmail.com', style: TextStyle(color: Colors.black87)),
+                accountName: Text(SignInPage.username, style: TextStyle(color: Colors.black87)),
+                accountEmail: Text(SignInPage.email, style: TextStyle(color: Colors.black87)),
                 currentAccountPicture: GestureDetector(
                   child: CircleAvatar(
-                    child: Text('DL'),
-                    radius: 5.0,
+                    child: Text(SignInPage.username[0], style: TextStyle(fontSize:40.0)),
+                    radius: 2.0,
                   ),
                 ),
                 decoration: BoxDecoration(
@@ -103,6 +87,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 title: Text('Edit Profile'),
                 trailing: Icon(Icons.edit),
                 onTap: () => Navigator.of(context).pushNamed('/edit_profile'),
+              ),
+              ListTile(
+                title: Text('Log out'),
+                trailing: Icon(Icons.exit_to_app),
+                onTap: () {
+                  SignInPage.handleSignOut();
+                  Navigator.of(context).popAndPushNamed('/');
+                }
               )
             ],
           ),
@@ -113,7 +105,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             actions: <Widget>[
               new IconButton(icon: new Icon(Icons.search), onPressed: () {Navigator.pushNamed(context, '/search_$interfaceType');},),
 //              new IconButton(icon: new Icon(Icons.collections), onPressed: () {Navigator.pushNamed(context, '/stamp_collection_$interfaceType');},),
-              new IconButton(icon: (_currentUser == null) ? Icon(Icons.group) : Icon(Icons.exit_to_app), onPressed: () {_currentUser == null ? _handleSignIn() : _handleSignOut();},)
+              new IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {
+                SignInPage.handleSignOut();
+                Navigator.of(context).popAndPushNamed('/');
+              })
             ],
             backgroundColor: Colors.white,
             elevation: 2.0,
