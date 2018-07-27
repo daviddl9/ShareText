@@ -1,6 +1,12 @@
 cloud_firestore=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.7.3/
+firebase_analytics=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-1.0.1/
+firebase_auth=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.5.14/
 firebase_core=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.2.4/
+firebase_database=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-1.0.2/
+firebase_messaging=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.2.1/
+firebase_storage=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_storage-1.0.0/
 fluttertoast=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-2.0.4/
 google_sign_in=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-3.0.4/
+image_picker=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.5/
 path_provider=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.3.1/
 sqflite=/Users/David/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-0.8.2/

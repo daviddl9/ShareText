@@ -4,7 +4,7 @@
             "outputFile": "/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-port/values-port.xml",
             "map": [
                 {
-                    "source": "/Users/David/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/d2d5b3841c072dd47a33b64e38d90769/res/values-port/values-port.xml",
+                    "source": "/Users/David/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.0.aar/8fadef1c712a1920c8f186b7fe791aa8/res/values-port/values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

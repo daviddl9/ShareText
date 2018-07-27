@@ -51,8 +51,6 @@ class BookCardCompact extends StatelessWidget {
     );
   }
 
-
-
   String _short(String title, int targetLength) {
     var list = title.split(" ");
     int buffer = 0;
@@ -75,5 +73,162 @@ class BookCardCompact extends StatelessWidget {
 
     if(!showedAll) result += "...";
     return result;
+  }
+}
+
+class BorrowedBookCardCompact extends StatelessWidget {
+  BorrowedBookCardCompact(this.book, this.ownerName, this.date, {@required this.onClick, @required this.isBorrowRequest});
+  final Book book;
+  final VoidCallback onClick;
+  final String ownerName;
+  final String date;
+  final bool isBorrowRequest;
+
+  @override
+  Widget build(BuildContext context) {
+    return new GestureDetector(
+      onTap : onClick,
+      child: new Container(
+        child: new Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Column(
+            children: <Widget>[
+              new Row(
+                children: <Widget>[
+                  new Hero(child: new Image.network(book.url, height: 150.0, width: 100.0,), tag: book.id,),
+                  new Expanded(
+                    child: new Padding(
+                      padding: const EdgeInsets.only(top : 8.0, left: 24.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(book.title, style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0), overflow: TextOverflow.ellipsis, maxLines: 2,),
+                          new SizedBox(height: 4.0,),
+                          new Text(book.author),
+                          new SizedBox(height: 8.0,),
+                          isBorrowRequest ? new Text('Borrowed from ' + ownerName + ' on ' + date + '.', style: TextStyle(fontSize: 13.0, fontStyle: FontStyle.italic, color: Colors.green),) :
+                          new Text('Requested from ' + ownerName + ' on ' + date + '.', style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13.0, color: Colors.blueAccent),)
+                          //    new Text(_short(book.subtitle, 30)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  new SizedBox(width: 16.0,)
+                ],
+              ),
+              new Divider(color: Colors.black38, indent: 128.0,),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+}
+
+
+class PendingBorrowBookCardCompact extends StatelessWidget {
+  PendingBorrowBookCardCompact(this.book, this.ownerName, this.date, {@required this.onClick});
+  final Book book;
+  final VoidCallback onClick;
+  final String ownerName;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return new GestureDetector(
+      onTap : onClick,
+      child: new Container(
+        child: new Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Column(
+            children: <Widget>[
+              new Row(
+                children: <Widget>[
+                  new Hero(child: new Image.network(book.url, height: 150.0, width: 100.0,), tag: book.id,),
+                  new Expanded(
+                    child: new Padding(
+                      padding: const EdgeInsets.only(top : 8.0, left: 24.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(book.title, style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0), overflow: TextOverflow.ellipsis, maxLines: 2,),
+                          new SizedBox(height: 4.0,),
+                          new Text(book.author),
+                          new SizedBox(height: 8.0,),
+                          new Text('Pending request to ' + ownerName + ' on ' + date + '.', style: TextStyle(fontSize: 13.0, fontStyle: FontStyle.italic, color: Colors.blueGrey),)
+                          //    new Text(_short(book.subtitle, 30)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  new SizedBox(width: 16.0,)
+                ],
+              ),
+              new Divider(color: Colors.black38, indent: 128.0,),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoanedOutBookCardCompact extends StatelessWidget {
+  LoanedOutBookCardCompact(this.book, this.borrowerName, this.date,
+      {@required this.onClick});
+
+  final Book book;
+  final VoidCallback onClick;
+  final String borrowerName;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return new GestureDetector(
+      onTap: onClick,
+      child: new Container(
+        child: new Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Column(
+            children: <Widget>[
+              new Row(
+                children: <Widget>[
+                  new Hero(
+                    child: new Image.network(
+                      book.url, height: 150.0, width: 100.0,), tag: book.id,),
+                  new Expanded(
+                    child: new Padding(
+                      padding: const EdgeInsets.only(top: 8.0, left: 24.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(book.title, style: const TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 20.0),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,),
+                          new SizedBox(height: 4.0,),
+                          new Text(book.author),
+                          new SizedBox(height: 8.0,),
+                          new Text(
+                            'Loaned out to ' + borrowerName + ' on ' + date +
+                                '.', style: TextStyle(fontSize: 13.0,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.blueGrey),)
+                          //    new Text(_short(book.subtitle, 30)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  new SizedBox(width: 16.0,)
+                ],
+              ),
+              new Divider(color: Colors.black38, indent: 128.0,),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

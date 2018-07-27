@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:test_app/data/repository.dart';
@@ -89,6 +90,41 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 onTap: () => Navigator.of(context).pushNamed('/edit_profile'),
               ),
               ListTile(
+                title: Text('Notifications'),
+                trailing: Icon(Icons.notifications),
+                onTap: () => Navigator.of(context).pushNamed('/my_notifications_page'),
+              ),
+              ListTile(
+                title: Text('My Chats'),
+                trailing: Icon(Icons.chat),
+                onTap: () => Navigator.of(context).pushNamed('/my_chats_list_page') //TODO implement chat page
+              ),
+              ListTile(
+                title: Text('My Friends'),
+                trailing: Icon(Icons.people_outline),
+                onTap: () => Navigator.of(context).pushNamed('/friends_page'),
+              ),
+              ListTile(
+                title: Text('My Loans'),
+                trailing: Icon(Icons.format_list_bulleted),
+                onTap: () => Navigator.of(context).pushNamed('/loans_page'),
+              ),
+              ListTile(
+                title: Text('Borrow Requests'),
+                trailing: Icon(Icons.library_add),
+                onTap: () => Navigator.of(context).pushNamed('/borrow_requests_page')
+              ),
+              ListTile(
+                title: Text('My Pending Requests'),
+                trailing: Icon(Icons.watch_later),
+                onTap: () => Navigator.of(context).pushNamed('/my_pending_requests_page')
+              ),
+              ListTile(
+                title: Text('My Loaned out Items'),
+                trailing: Icon(Icons.receipt),
+                onTap: () => Navigator.of(context).pushNamed('/my_loaned_out_items_page'),
+              ),
+              ListTile(
                 title: Text('Log out'),
                 trailing: Icon(Icons.exit_to_app),
                 onTap: () {
@@ -103,6 +139,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         slivers: <Widget>[
           new SliverAppBar(
             actions: <Widget>[
+              new IconButton(icon: Icon(Icons.group), onPressed: () {Navigator.of(context).pushNamed('/search_users_page');},),
               new IconButton(icon: new Icon(Icons.search), onPressed: () {Navigator.pushNamed(context, '/search_$interfaceType');},),
 //              new IconButton(icon: new Icon(Icons.collections), onPressed: () {Navigator.pushNamed(context, '/stamp_collection_$interfaceType');},),
               new IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {

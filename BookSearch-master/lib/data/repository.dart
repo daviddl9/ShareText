@@ -19,7 +19,6 @@ class ParsedResponse<T> {
   }
 }
 
-
 final int NO_INTERNET = 404;
 
 class Repository {
@@ -57,7 +56,7 @@ class Repository {
        return new ParsedResponse(response.statusCode, []);
      }
      // Decode and go to the items part where the necessary book information is
-     List<dynamic> list = JSON.decode(response.body)['items'];
+     List<dynamic> list = json.decode(response.body)['items'];
 
      Map<String, Book> networkBooks = {};
 
@@ -88,7 +87,7 @@ class Repository {
       return new ParsedResponse(response.statusCode, null);
     }
 
-    dynamic jsonBook = JSON.decode(response.body);
+    dynamic jsonBook = json.decode(response.body);
 
     Book book = parseNetworkBook(jsonBook);
 
@@ -151,7 +150,7 @@ class Repository {
         return new ParsedResponse(response.statusCode, null);
       }*/
 
-      dynamic jsonBook = JSON.decode(response.body);
+      dynamic jsonBook = json.decode(response.body);
 
       Book book = parseNetworkBook(jsonBook);
       updateBook(book);

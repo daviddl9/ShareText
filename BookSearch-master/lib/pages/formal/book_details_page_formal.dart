@@ -6,6 +6,9 @@ import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/abstract/book_details_page_abstract.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:test_app/pages/formal/sign_in_page_formal.dart';
+import 'package:test_app/pages/formal/user_list_formal.dart';
+import 'package:test_app/utils/utils.dart';
 
 
 
@@ -23,7 +26,6 @@ class BookDetailsPageFormal extends StatefulWidget {
 
 
 class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetailsPageFormal> {
-
   GlobalKey<ScaffoldState> key = new GlobalKey();
 
   @override
@@ -61,7 +63,17 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                   new Expanded(
                       child: new IconButtonText(
                         onClick: (){
-                          //TODO implement search function for users.
+                          //TODO may need to remove this part
+                          Navigator.of(context).push(
+                            FadeRoute(
+                              builder: (context) => UserListPage(widget.book.id),
+                              settings: RouteSettings(
+                                name: '/user_list_page',
+                                isInitialRoute: false
+                              )
+                            )
+                          );
+                          // TODO figure out how to search users and how to manipulate the data. 
                         },
                         iconData: Icons.people,
                         text: "Search users",
@@ -71,18 +83,18 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                   new Expanded(
                     child: new IconButtonText(
                       onClick: (){
-//                        print("The id is: ${widget.book.id}");
-//                        Clipboard.setData(new ClipboardData(text: widget.book.id));
                         setState(() {
-                          String preText;
+                          String preText, postText;
                           if (widget.book.wishlisted) {
                             preText = "Removed:";
+                            postText = "from";
                           } else {
                             preText = "Added:";
+                            postText = "to";
                           }
                           widget.book.wishlisted = !widget.book.wishlisted;
                           Repository.get().updateBook(widget.book);
-                          key.currentState.showSnackBar(new SnackBar(content: new Text("$preText ${widget.book.title} to wishlist")));
+                          key.currentState.showSnackBar(new SnackBar(content: new Text("$preText ${widget.book.title} $postText wishlist")));
                         });
                       },
                       iconData: widget.book.wishlisted? Icons.remove : Icons.bookmark,
@@ -92,21 +104,49 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                   ),
                   new Expanded(
                     child: new IconButtonText(
+                      // Update the user's book collection on both firestore and on the remote device.
                       onClick: (){
+                        String email = SignInPage.email;
+                        // Update users collection first.
+                        Firestore.instance.runTransaction((Transaction transaction) async {
+                          CollectionReference reference = Firestore.instance.collection('users/$email' + '/booklist');
+                          if (widget.book.starred) {
+                            // we use setData to specify the id of the collection we want to add into.
+                            await reference.document(widget.book.id).setData(
+                                {'id': widget.book.id, 'isAvailable': true});
+                          } else {
+                            await reference.document(widget.book.id).delete();
+                          }
+                        });
+                        // Then update book collection.
+                        Firestore.instance.runTransaction((Transaction transaction) async {
+                          CollectionReference reference = Firestore.instance.collection('books');
+                          if (widget.book.starred) {
+                            await reference.document(widget.book.id).setData({'id': widget.book.id, 'isAvailable': true, 'ownerEmail': SignInPageState.currentUser.email, 'user': {
+                              'email' : SignInPageState.currentUser.email,
+                              'name' : SignInPageState.currentUser.displayName,
+                              'contact' : SignInPage.contact
+                            }});
+                          } else {
+                            await reference.document(widget.book.id).delete();
+                          }
+                        });
                         setState(() {
-                          String preText;
+                          String preText, postText;
                           widget.book.starred = !widget.book.starred;
                           if (widget.book.starred) {
-                            preText = "Removed:";
-                          } else {
                             preText = "Added:";
+                            postText = "to";
+                          } else {
+                            preText = "Removed:";
+                            postText = "from";
                           }
-                          key.currentState.showSnackBar(new SnackBar(content: new Text("$preText ${widget.book.title} to collection")));
+                          key.currentState.showSnackBar(new SnackBar(content: new Text("$preText ${widget.book.title} $postText collection")));
                           Repository.get().updateBook(widget.book);
                         });
                       },
                       iconData: widget.book.starred? Icons.remove : Icons.add,
-                      text: widget.book.starred? "Remove"  :"My Collection",
+                      text: widget.book.starred? "Remove" : "My Collection",
                       selected: widget.book.starred,
                     ),
                   ),

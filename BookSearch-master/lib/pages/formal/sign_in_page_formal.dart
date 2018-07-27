@@ -18,7 +18,7 @@ Future<Null> _handleSignIn() async {
   try {
     await googleSignIn.signIn();
     Fluttertoast.showToast(
-        msg: "Logged In Successfully.",
+        msg: "Welcome back, " + SignInPageState.currentUser.displayName  + '!',
         toastLength: Toast.LENGTH_SHORT,
     );
   } catch (error) {
@@ -29,6 +29,7 @@ Future<Null> _handleSignIn() async {
 class SignInPage extends StatefulWidget {
   static String email;
   static String username;
+  static String contact;
 
   static Future<Null> handleSignOut() async {
     googleSignIn.disconnect();
@@ -41,16 +42,24 @@ class SignInPage extends StatefulWidget {
 }
 
 class SignInPageState extends State<SignInPage> {
-  GoogleSignInAccount _currentUser;
+  static GoogleSignInAccount currentUser;
 
   @override
   void initState() {
     super.initState();
+
     googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       setState(() {
-        _currentUser = account;
-        SignInPage.email = _currentUser.email;
-        SignInPage.username = _currentUser.displayName;
+        SignInPageState.currentUser = account;
+        SignInPage.email = SignInPageState.currentUser.email;
+        SignInPage.username = SignInPageState.currentUser.displayName;
+        String num;
+        DocumentReference ref = Firestore.instance.collection('users').document(SignInPage.email);
+        ref.get().then((doc) {
+          setState(() {
+            SignInPage.contact = doc.data['contact'];
+          });
+        });
       });
     });
     googleSignIn.signInSilently();
@@ -68,20 +77,16 @@ class SignInPageState extends State<SignInPage> {
         child: MaterialButton(
           minWidth: 200.0,
           height: 58.0,
-          onPressed: () {
-            setState(() async {
-              await _handleSignIn();
-              Navigator.of(context).pushNamed('/home_page');
-            });
-//            _handleSignIn();
-//            Navigator.of(context).pushNamed('/home_page');
+          onPressed: () async {
+            await _handleSignIn();
+            Navigator.of(context).pushNamed('/home_page');
           },
           color: Colors.lightBlueAccent,
           child: Text('Log In', style: TextStyle(color: Colors.white, fontSize: 20.0)),
         ),
       ),
     );
-    String email = SignInPage.email;
+    String email = SignInPage.email; //Dependency here is that user has to be signed in, or there would be a null pointer exception.
     final signUpButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
@@ -91,13 +96,14 @@ class SignInPageState extends State<SignInPage> {
         child: MaterialButton(
           minWidth: 200.0,
           height: 58.0,
-          onPressed: () {
-            _handleSignIn();
+          onPressed: () async {
+            await _handleSignIn();
             Firestore.instance.runTransaction((Transaction transaction) async {
               DocumentReference reference = Firestore.instance.document('users/$email');
               DocumentSnapshot ds = await transaction.get(reference);
               if (ds.exists) {
-                Fluttertoast.showToast(msg: 'An account with this email already exists, please log in instead.', toastLength: Toast.LENGTH_LONG);
+                Fluttertoast.showToast(msg: 'An account with this email already exists, logging in instead.', toastLength: Toast.LENGTH_LONG);
+                Navigator.of(context).pushNamed('/home_page');
               } else {
                 CollectionReference reference = Firestore.instance.collection('users');
                 await reference.add({"email":SignInPage.email, "name":SignInPage.username});

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:test_app/pages/formal/sign_in_page_formal.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
   scopes: <String> [
@@ -62,6 +64,10 @@ class EditProfilePageState extends State<EditProfilePage> {
     if (form.validate()) {
       form.save();
     }
+    Fluttertoast.showToast(
+      msg: "Profile saved successfully, please logout and login again to update changes.",
+      toastLength: Toast.LENGTH_LONG,
+    );
 
     Navigator.of(context).pushNamed('/home_page');
   }
@@ -82,18 +88,19 @@ class EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                 decoration: InputDecoration(
                     labelText: 'Your name',
-                    hintText: name,
-                    icon: Icon(Icons.person)
+                    icon: Icon(Icons.person),
                 ),
+                initialValue: SignInPageState.currentUser.displayName,
                 onSaved: (val) => name = val,
               ),
               TextFormField(
                 decoration: InputDecoration(
                   icon: Icon(Icons.phone),
-                  hintText: 'Enter your phone number',
-                  labelText: 'Phone'
+                  labelText: 'Phone',
+                  hintText: 'Enter mobile number'
                 ),
                 onSaved: (val) => num = val,
+                initialValue: SignInPage.contact,
                 keyboardType: TextInputType.phone,
                 inputFormatters: [
                   WhitelistingTextInputFormatter.digitsOnly
@@ -104,6 +111,7 @@ class EditProfilePageState extends State<EditProfilePage> {
                     labelText: 'Your email',
                     icon: Icon(Icons.email)
                 ),
+                initialValue: SignInPageState.currentUser.email,
                 validator: (val) =>
                 !val.contains('@') ? 'Not a valid email.' : null,
                 onSaved: (val) => email = val,

@@ -4,6 +4,25 @@
             "outputFile": "/Users/David/Desktop/ShareText/BookSearch-master/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
+                    "source": "/Users/David/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.0.aar/8fadef1c712a1920c8f186b7fe791aa8/res/values-watch-v20/values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,214,385",
+                        "endLines": "4,7,10",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "209,380,553"
+                    },
+                    "to": {
+                        "startLines": "10,13,16",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "715,874,1045",
+                        "endLines": "12,15,18",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "869,1040,1213"
+                    }
+                },
+                {
                     "source": "/Users/David/.gradle/caches/transforms-1/files-1.1/play-services-auth-15.0.1.aar/c34f7f5675a87d0a0efc16b6b1b38a59/res/values-watch-v20/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
