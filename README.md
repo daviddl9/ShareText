@@ -6,7 +6,7 @@ Problem Statement: Physical copies of books are left unused once read, leading t
 
 Solution: A social-networking platform for book readers to share their hard copy books.
 
-Platform: Android application.
+Platform: Android / iOS.
 
 Target audience: Book readers who would like to share and/or exchange their hard copy books.
 
