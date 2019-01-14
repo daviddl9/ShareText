@@ -5,8 +5,6 @@ An open source app which revolves all around books: “Collecting books as you r
 
 I post updates and tutorials on medium, go check it out!
 
-https://medium.com/@norbertkozsir 
-
 ## Here are some gifs
 
 ![](https://github.com/Norbert515/BookSearch/blob/dev/readmeAssets/fade_in_myCollection_gif.gif)
@@ -15,9 +13,6 @@ https://medium.com/@norbertkozsir
 ![](https://github.com/Norbert515/BookSearch/blob/dev/readmeAssets/stamps.png)
 
 ### Sounds cool? Leave a star so others can also find this project!
-
-
-
 
 
 # Code for the medium posts:
